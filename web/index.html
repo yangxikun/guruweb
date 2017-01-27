@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>guru-web</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+        <style>
+            .guru-web-body {
+                border: 1px solid #e7e7e7;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <guru-web-head></guru-web-head>
+            <guru-web-config v-show="guruWebBody == 'guru-web-config'"></guru-web-config>
+            <guru-web-search v-show="guruWebBody == 'guru-web-search'"></guru-web-search>
+            <div class="container-fluid guru-web-body" v-show="guruWebBody == 'guru-web-file'">
+                <div class="row">
+                    <guru-web-history-nav></guru-web-history-nav>
+                </div>
+                <div class="row">
+                    <guru-web-file></guru-web-file>
+                    <guru-web-out></guru-web-out>
+                </div>
+            </div>
+            <guru-web-menu></guru-web-menu>
+            <guru-web-alert></guru-web-alert>
+        </div>
+        <script src="/static/dist/build.js"></script>
+    </body>
+</html>
