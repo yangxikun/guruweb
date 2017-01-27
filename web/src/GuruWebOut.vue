@@ -35,7 +35,7 @@
             window.Bus.$on('show-query-out', (mode, pos) => {
                 console.log('show-query-out');
                 this.links = ["loading......"];
-                this.$http.get('http://localhost:8081/query?mode=' + mode + '&pos=' + encodeURIComponent(pos), {}).then((response) => {
+                this.$http.get('/query?mode=' + mode + '&pos=' + encodeURIComponent(pos), {}).then((response) => {
                     this.height = $(window).height() - topOuterHeight;
                     this.links = this._parseLinks(response.data);
                 }, (response) => {

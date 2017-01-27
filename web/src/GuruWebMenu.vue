@@ -30,7 +30,7 @@
                 console.log('show menu');
                 this.ok = !this.ok;
                 if (this.ok) {
-                    this.$http.get('http://localhost:8081/query?mode=what&pos=' + encodeURIComponent(pos), {
+                    this.$http.get('/query?mode=what&pos=' + encodeURIComponent(pos), {
                         headers: {Accept: 'application/json'}
                     }).then((response) => {
                         this.menu = response.data.modes;

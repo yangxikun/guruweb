@@ -86,7 +86,7 @@
 		mounted() {
 	        window.Bus.$on('change-body', (name) => {
 	            if (name == 'guru-web-config') {
-	            	this.$http.get('http://localhost:8081/config', {}).then((response) => {
+	            	this.$http.get('/config', {}).then((response) => {
 	            		const jsonResp = response.data;
 	            		this.scopes = jsonResp.inputScopes;
 	            		this.loadedPkgs = jsonResp.loadedPkgs;
@@ -101,7 +101,7 @@
 	    	newScope(val) {
 	    		console.log('input' + val)
                 if (val.length > 1) {
-                    this.$http.get('http://localhost:8081/recommend-pkgs?query=' + encodeURIComponent(val), {}).then((response) => {
+                    this.$http.get('/recommend-pkgs?query=' + encodeURIComponent(val), {}).then((response) => {
                         const jsonResp = response.data;
                         console.log(jsonResp)
                         this.recommendPkgs = [];
@@ -122,7 +122,7 @@
             reload() {
                 this.state = 'loading';
 	    	    console.log('reload', this.scopes, this.verbose)
-                this.$http.post('http://localhost:8081/config', {
+                this.$http.post('/config', {
                     scope: this.scopes.join(','),
                     verbose: this.verbose
                 }, {emulateJSON: true}).then((response) => {

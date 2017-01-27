@@ -63,7 +63,7 @@
                         + fileInfo.sel.toLine + '.' + fileInfo.sel.toCol;
                 }
                 this.currentFile = fileInfo.fileName;
-                this.$http.get('http://localhost:8081/file?' + params, {}).then((response) => {
+                this.$http.get('/file?' + params, {}).then((response) => {
                     console.log('show file http')
                     this.nums = (response.data.match(/\n/g) || []).length;
                     $('.lines').html(response.data);

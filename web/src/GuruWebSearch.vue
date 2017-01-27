@@ -32,7 +32,7 @@
         mounted: function() {
             window.Bus.$on('search-change', (val) => {
                 console.log('guru-web-search', val);
-                this.$http.get('http://localhost:8081/recommend-search?query=' + val, {}).then((response) => {
+                this.$http.get('/recommend-search?query=' + val, {}).then((response) => {
                     console.log('guru-web-search', response);
                     const jsonResp = response.data;
                     this.fileItems = jsonResp.files;

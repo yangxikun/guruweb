@@ -105,7 +105,6 @@ func ServeRecommendSearch(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeRecommendSearch: %s", req.URL)
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	w.Header().Set("Content-Type", "application/json")
 	query := req.FormValue("query")
 	if query == "" {
@@ -132,7 +131,6 @@ func ServeRecommendPkgs(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeRecommendPkgs: %s", req.URL)
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	w.Header().Set("Content-Type", "application/json")
 	query := req.FormValue("query")
 	recommendPkgs := make([]string, 0)
@@ -162,7 +160,6 @@ func ServeQuery(w http.ResponseWriter, req *http.Request) {
 			http.Error(w, fmt.Sprintf("%v", err), 500)
 		}
 	}()
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	req.ParseForm()
 	mode := req.FormValue("mode")
 	pos := req.FormValue("pos")
@@ -188,7 +185,6 @@ func ServeFile(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeFile: %s", req.URL)
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	path := req.FormValue("path")
 	if defaultIndex.isForbiddenPath(path) {
 		http.Error(w, "Forbidden", 403)
@@ -218,7 +214,6 @@ func ServeConfig(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeConfig: %s", req.URL)
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	if req.Method == "POST" {
