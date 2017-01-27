@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"go/build"
 	"go/token"
-	"guruweb/internal/tools/guru"
+    "github.com/yangxikun/guruweb/internal/tools/guru"
 )
 
 func queryGuru(mode, pos string, json bool) (result []byte, err error) {

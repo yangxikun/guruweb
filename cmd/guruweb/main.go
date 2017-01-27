@@ -3,14 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"guruweb"
-	"guruweb/output"
 	"net"
 	"net/http"
 	"os"
 	"os/exec"
 	"runtime"
 	"strings"
+    "github.com/yangxikun/guruweb"
+    "github.com/yangxikun/guruweb/output"
 )
 
 var (

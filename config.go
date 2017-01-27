@@ -7,7 +7,7 @@ import (
 	"go/parser"
 	"golang.org/x/tools/go/buildutil"
 	"golang.org/x/tools/go/loader"
-	"guruweb/output"
+    "github.com/yangxikun/guruweb/output"
 )
 
 type config struct {

@@ -7,14 +7,14 @@ import (
 	"go/ast"
 	"go/token"
 	"golang.org/x/tools/godoc"
-	"guruweb/output"
-	"guruweb/web"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"sort"
 	"strings"
 	"time"
+    "github.com/yangxikun/guruweb/output"
+    "github.com/yangxikun/guruweb/web"
 )
 
 type index struct {
