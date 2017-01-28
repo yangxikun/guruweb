@@ -16,7 +16,7 @@ import (
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/types/typeutil"
 	"golang.org/x/tools/refactor/importgraph"
-	"guruweb/internal/tools/guru/serial"
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Implements displays the "implements" relation as it pertains to the

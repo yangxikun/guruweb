@@ -15,7 +15,7 @@ import (
 	"strings"
 
 	"golang.org/x/tools/go/ast/astutil"
-	"guruweb/internal/tools/guru/serial"
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // what reports all the information about the query selection that can be

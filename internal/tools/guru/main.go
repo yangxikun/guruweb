@@ -69,7 +69,7 @@ of the syntax element to query.  For example:
 	bar.go:#123
 
 The -json flag causes guru to emit output in JSON format;
-	guruweb/internal/tools/guru/serial defines its schema.
+	github.com/yangxikun/guruweb/internal/tools/guru/serial defines its schema.
 	Otherwise, the output is in an editor-friendly format in which
 	every line has the form "pos: text", where pos is "-" if unknown.
 

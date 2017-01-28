@@ -15,7 +15,7 @@ import (
 	"golang.org/x/tools/go/pointer"
 	"golang.org/x/tools/go/ssa"
 	"golang.org/x/tools/go/ssa/ssautil"
-	"guruweb/internal/tools/guru/serial"
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Callees reports the possible callees of the function call site

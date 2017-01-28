@@ -20,7 +20,7 @@ import (
 	"golang.org/x/tools/go/buildutil"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/refactor/importgraph"
-	"guruweb/internal/tools/guru/serial"
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Referrers reports all identifiers that resolve to the same object

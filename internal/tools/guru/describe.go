@@ -18,7 +18,7 @@ import (
 	"golang.org/x/tools/go/ast/astutil"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/types/typeutil"
-	"guruweb/internal/tools/guru/serial"
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // describe describes the syntax node denoted by the query position,

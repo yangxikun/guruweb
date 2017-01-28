@@ -16,7 +16,7 @@ import (
 
 	"golang.org/x/tools/go/buildutil"
 	"golang.org/x/tools/go/loader"
-	"guruweb/internal/tools/guru/serial"
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // definition reports the location of the definition of an identifier.
