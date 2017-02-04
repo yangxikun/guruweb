@@ -42,6 +42,11 @@
                     });
                 }
             });
+            window.Bus.$on('change-body', (name) => {
+                if (this.ok) {
+                this.ok = false;
+            }
+        });
         },
         methods: {
             query(mode) {
