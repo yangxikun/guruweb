@@ -1,4 +1,4 @@
-package guruweb
+package main
 
 import (
 	"bytes"

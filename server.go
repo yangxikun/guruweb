@@ -1,4 +1,4 @@
-package guruweb
+package main
 
 import (
 	"bytes"
@@ -24,7 +24,7 @@ type index struct {
 
 var defaultIndex = &index{}
 
-func InitIndex() error {
+func initIndex() error {
 	if defaultConfig.verbose {
 		output.Trace("init index")
 	}
@@ -97,11 +97,11 @@ func (index *index) isForbiddenPath(path string) bool {
 	return i >= len(defaultIndex.files) || defaultIndex.files[i] != path
 }
 
-func ServeIndex(w http.ResponseWriter, req *http.Request) {
+func serveIndex(w http.ResponseWriter, req *http.Request) {
 	http.ServeContent(w, req, "", time.Time{}, strings.NewReader(static.Files["index.html"]))
 }
 
-func ServeRecommendSearch(w http.ResponseWriter, req *http.Request) {
+func serveRecommendSearch(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeRecommendSearch: %s", req.URL)
 	}
@@ -127,7 +127,7 @@ func ServeRecommendSearch(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func ServeRecommendPkgs(w http.ResponseWriter, req *http.Request) {
+func serveRecommendPkgs(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeRecommendPkgs: %s", req.URL)
 	}
@@ -151,7 +151,7 @@ func ServeRecommendPkgs(w http.ResponseWriter, req *http.Request) {
 	w.Write(response)
 }
 
-func ServeQuery(w http.ResponseWriter, req *http.Request) {
+func serveQuery(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeQuery: %s", req.URL)
 	}
@@ -181,7 +181,7 @@ func ServeQuery(w http.ResponseWriter, req *http.Request) {
 	w.Write(response)
 }
 
-func ServeFile(w http.ResponseWriter, req *http.Request) {
+func serveFile(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeFile: %s", req.URL)
 	}
@@ -210,7 +210,7 @@ func ServeFile(w http.ResponseWriter, req *http.Request) {
 	buf.WriteTo(w)
 }
 
-func ServeConfig(w http.ResponseWriter, req *http.Request) {
+func serveConfig(w http.ResponseWriter, req *http.Request) {
 	if defaultConfig.verbose {
 		output.Trace("ServeConfig: %s", req.URL)
 	}
@@ -224,8 +224,8 @@ func ServeConfig(w http.ResponseWriter, req *http.Request) {
 			v = true
 		}
 		if scope != "" {
-			InitConfig(strings.Split(scope, ","), v)
-			InitIndex()
+			initConfig(strings.Split(scope, ","), v)
+			initIndex()
 		} else {
 			http.Error(w, "scope should not be empty.", 400)
 			return

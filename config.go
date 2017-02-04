@@ -1,4 +1,4 @@
-package guruweb
+package main
 
 import (
 	"encoding/json"
@@ -28,7 +28,7 @@ func (c *config) MarshalJSON() ([]byte, error) {
 
 var defaultConfig = &config{}
 
-func InitConfig(scope []string, verbose bool) {
+func initConfig(scope []string, verbose bool) {
 	if verbose {
 		output.Trace("init config")
 	}

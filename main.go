@@ -9,7 +9,6 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
-    "github.com/yangxikun/guruweb"
     "github.com/yangxikun/guruweb/output"
 )
 
@@ -24,8 +23,8 @@ var (
 func main() {
 
 	flag.Parse()
-	guruweb.InitConfig(strings.Split(*scope, ","), *verbose)
-	err := guruweb.InitIndex()
+	initConfig(strings.Split(*scope, ","), *verbose)
+	err := initIndex()
 	exitOn(err)
 
 	registerHandlers()
@@ -64,14 +63,14 @@ func startBrowser(url string) error {
 }
 
 func registerHandlers() {
-	http.HandleFunc("/", guruweb.ServeIndex)
-	http.HandleFunc("/recommend-search", guruweb.ServeRecommendSearch)
-	http.HandleFunc("/recommend-pkgs", guruweb.ServeRecommendPkgs)
-	http.HandleFunc("/file", guruweb.ServeFile)
-	http.HandleFunc("/query", guruweb.ServeQuery)
-	http.HandleFunc("/config", guruweb.ServeConfig)
+	http.HandleFunc("/", serveIndex)
+	http.HandleFunc("/recommend-search", serveRecommendSearch)
+	http.HandleFunc("/recommend-pkgs", serveRecommendPkgs)
+	http.HandleFunc("/file", serveFile)
+	http.HandleFunc("/query", serveQuery)
+	http.HandleFunc("/config", serveConfig)
 	staticPrefix := "/static/"
-	http.Handle(staticPrefix, http.StripPrefix(staticPrefix, http.HandlerFunc(guruweb.ServeStatic)))
+	http.Handle(staticPrefix, http.StripPrefix(staticPrefix, http.HandlerFunc(ServeStatic)))
 }
 
 func exitOn(err error) {

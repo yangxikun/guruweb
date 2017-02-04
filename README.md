@@ -27,3 +27,11 @@ in your browser. You can choose a different port via the `-http` flag, e.g.:
     $ guruweb -http :6060 -scope fmt
 
 Run `guruweb -help` for more information.
+
+Show file page:
+
+![file](web/img/guruweb-file.png)
+
+Config file page:
+
+![config](web/img/guruweb-config.png)
