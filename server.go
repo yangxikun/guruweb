@@ -24,6 +24,7 @@ type index struct {
 
 var defaultIndex = &index{}
 
+// build files, struct/interface identifiers index
 func initIndex() error {
 	if defaultConfig.verbose {
 		output.Trace("init index")
@@ -38,32 +39,29 @@ func initIndex() error {
 	for pkg, info := range prog.AllPackages {
 		defaultConfig.loadedPkgs = append(defaultConfig.loadedPkgs, pkg.Path())
 		impPath := pkg.Path() + "."
+        // scan loaded files
 		for _, astFile := range info.Files {
 			file := prog.Fset.File(astFile.Pos())
 			filename := file.Name()
 			defaultIndex.files = append(defaultIndex.files, filename)
 			for _, decl := range astFile.Decls {
+                // get identifier pos
 				position := file.Position(decl.Pos())
 				if fun, ok := decl.(*ast.FuncDecl); ok {
 					defaultIndex.identifiers[impPath+fun.Name.String()] = position
 					continue
 				}
 
-				if gen, ok := decl.(*ast.GenDecl); ok {
-					if gen.Tok == token.TYPE {
-						typeSpec, ok := gen.Specs[0].(*ast.TypeSpec)
-						if ok {
-							_, ok := typeSpec.Type.(*ast.StructType)
-							if ok {
-								defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
-								continue
-							}
-							_, ok = typeSpec.Type.(*ast.InterfaceType)
-							if ok {
-								defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
-							}
-						}
-					}
+                // collect struct/interface identifiers
+				if gen, ok := decl.(*ast.GenDecl); ok && gen.Tok == token.TYPE {
+                    if typeSpec, ok := gen.Specs[0].(*ast.TypeSpec); ok {
+                        switch typeSpec.Type.(type) {
+                        case *ast.StructType:
+                            defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
+                        case *ast.InterfaceType:
+                            defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
+                        }
+                    }
 				}
 			}
 		}
@@ -107,24 +105,23 @@ func serveRecommendSearch(w http.ResponseWriter, req *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	query := req.FormValue("query")
+    var (
+        response []byte
+        err error
+    )
 	if query == "" {
-		response, err :=
+		response, err =
 			json.Marshal(map[string]interface{}{"idents": map[string]token.Position{}, "files": []string{}})
-		if err != nil {
-			http.Error(w, err.Error(), 500)
-			return
-		}
-		w.Write(response)
 	} else {
 		idents, files := defaultIndex.search(query)
-		response, err :=
+		response, err =
 			json.Marshal(map[string]interface{}{"idents": idents, "files": files})
-		if err != nil {
-			http.Error(w, err.Error(), 500)
-			return
-		}
-		w.Write(response)
 	}
+    if err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+    w.Write(response)
 }
 
 func serveRecommendPkgs(w http.ResponseWriter, req *http.Request) {
@@ -187,7 +184,7 @@ func serveFile(w http.ResponseWriter, req *http.Request) {
 	}
 	path := req.FormValue("path")
 	if defaultIndex.isForbiddenPath(path) {
-		http.Error(w, "Forbidden", 403)
+		http.Error(w, path + " is not loaded.", 403)
 		return
 	}
 	content, err := ioutil.ReadFile(path)
@@ -215,7 +212,6 @@ func serveConfig(w http.ResponseWriter, req *http.Request) {
 		output.Trace("ServeConfig: %s", req.URL)
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	if req.Method == "POST" {
 		scope := req.FormValue("scope")
 		verbose := req.FormValue("verbose")
