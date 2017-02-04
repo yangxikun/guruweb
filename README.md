@@ -28,10 +28,10 @@ in your browser. You can choose a different port via the `-http` flag, e.g.:
 
 Run `guruweb -help` for more information.
 
-Show file page:
+Show file page(navigate between files):
 
 ![file](web/img/guruweb-file.png)
 
-Config file page:
+Config file page(change socpe and reload):
 
 ![config](web/img/guruweb-config.png)
