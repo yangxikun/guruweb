@@ -6,8 +6,6 @@ For more information on the Go guru, see the [original announcement](https://god
 Installing from source
 ----------------------
 
-Building Pythia requires at least Go version 1.2 or higher.
-
 To install, run
 
     $ go get github.com/yangxikun/guruweb
