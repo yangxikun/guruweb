@@ -7,6 +7,7 @@ import (
     "github.com/yangxikun/guruweb/internal/tools/guru"
 )
 
+// guru wrapper
 func queryGuru(mode, pos string, json bool) (result []byte, err error) {
 	output := func(fset *token.FileSet, qr guru.QueryResult) {
 		result = qr.JSON(fset)
