@@ -1,4 +1,4 @@
-package main // @referrers package-decl "main"
+package guru // @referrers package-decl "main"
 
 // Tests of 'referrers' query.
 // See go.tools/guru/guru_test.go for explanation.

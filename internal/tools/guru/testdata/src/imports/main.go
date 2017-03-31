@@ -1,4 +1,4 @@
-package main
+package guru
 
 import (
 	"hash/fnv" // @describe ref-pkg-import2 "fnv"

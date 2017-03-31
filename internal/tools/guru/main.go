@@ -10,7 +10,7 @@
 //
 // Run with -help flag or help subcommand for usage information.
 //
-package guru // import "guruweb/internal/tools/guru"
+package guru // import "github.com/yangxikun/guruweb/internal/tools/guru"
 
 import (
 	"bufio"
@@ -82,7 +82,7 @@ The -modified flag causes guru to read an archive from standard input.
 
 The -scope flag restricts analysis to the specified packages.
 	Its value is a comma-separated list of patterns of these forms:
-		guruweb/internal/tools/guru     # a single package
+		github.com/yangxikun/guruweb/internal/tools/guru     # a single package
 		golang.org/x/tools/...          # all packages beneath dir
 		...                             # the entire workspace.
 	A pattern preceded by '-' is negative, so the scope
@@ -93,7 +93,7 @@ User manual: http://golang.org/s/using-guru
 
 Example: describe syntax at offset 530 in this file (an import spec):
 
-  $ guru describe src/guruweb/internal/tools/guru/main.go:#530
+  $ guru describe src/github.com/yangxikun/guruweb/internal/tools/guru/main.go:#530
 `
 
 func printHelp() {

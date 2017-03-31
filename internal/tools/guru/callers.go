@@ -9,11 +9,11 @@ import (
 	"go/token"
 	"go/types"
 
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 	"golang.org/x/tools/go/callgraph"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/ssa"
 	"golang.org/x/tools/go/ssa/ssautil"
-	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Callers reports the possible callers of the function

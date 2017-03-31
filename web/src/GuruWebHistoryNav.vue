@@ -33,7 +33,7 @@
             };
         },
         mounted() {
-        	window.Bus.$on('show-file', (fileInfo) => {
+        	window.Bus.$on('show-file-success', (fileInfo) => {
         		this.currentFile = fileInfo.fileName;
         		this.historyStack.push(fileInfo)
         	});

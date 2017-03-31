@@ -1,4 +1,4 @@
-package main // @what pkgdecl "main"
+package guru // @what pkgdecl "main"
 
 // Tests of 'what' queries.
 // See go.tools/guru/guru_test.go for explanation.

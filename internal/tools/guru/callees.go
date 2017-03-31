@@ -11,11 +11,11 @@ import (
 	"go/types"
 	"sort"
 
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/pointer"
 	"golang.org/x/tools/go/ssa"
 	"golang.org/x/tools/go/ssa/ssautil"
-	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Callees reports the possible callees of the function call site
@@ -240,7 +240,7 @@ func (r *calleesTypesResult) JSON(fset *token.FileSet) []byte {
 		Desc: "static function call",
 	}
 	j.Callees = []*serial.Callee{
-		&serial.Callee{
+		{
 			Name: r.callee.FullName(),
 			Pos:  fset.Position(r.callee.Pos()).String(),
 		},

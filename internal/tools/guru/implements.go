@@ -13,10 +13,10 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/types/typeutil"
 	"golang.org/x/tools/refactor/importgraph"
-	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Implements displays the "implements" relation as it pertains to the
@@ -102,16 +102,20 @@ func implements(q *Query) error {
 	}
 
 	// Find all named types, even local types (which can have
-	// methods via promotion) and the built-in "error".
-	var allNamed []types.Type
+	// methods due to promotion) and the built-in "error".
+	// We ignore aliases 'type M = N' to avoid duplicate
+	// reporting of the Named type N.
+	var allNamed []*types.Named
 	for _, info := range lprog.AllPackages {
 		for _, obj := range info.Defs {
-			if obj, ok := obj.(*types.TypeName); ok {
-				allNamed = append(allNamed, obj.Type())
+			if obj, ok := obj.(*types.TypeName); ok && !isAlias(obj) {
+				if named, ok := obj.Type().(*types.Named); ok {
+					allNamed = append(allNamed, named)
+				}
 			}
 		}
 	}
-	allNamed = append(allNamed, types.Universe.Lookup("error").Type())
+	allNamed = append(allNamed, types.Universe.Lookup("error").Type().(*types.Named))
 
 	var msets typeutil.MethodSetCache
 

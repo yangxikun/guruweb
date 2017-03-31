@@ -14,8 +14,8 @@ import (
 	"sort"
 	"strings"
 
-	"golang.org/x/tools/go/ast/astutil"
 	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
+	"golang.org/x/tools/go/ast/astutil"
 )
 
 // what reports all the information about the query selection that can be
@@ -74,7 +74,7 @@ func what(q *Query) error {
 			}
 		}
 
-		// For pointsto, we approximate findInterestingNode.
+		// For pointsto and whicherrs, we approximate findInterestingNode.
 		if _, ok := enable["pointsto"]; !ok {
 			switch n.(type) {
 			case ast.Stmt,
@@ -84,10 +84,14 @@ func what(q *Query) error {
 				*ast.InterfaceType,
 				*ast.MapType,
 				*ast.ChanType:
-				enable["pointsto"] = false // not an expr
+				// not an expression
+				enable["pointsto"] = false
+				enable["whicherrs"] = false
 
 			case ast.Expr, ast.Decl, *ast.ValueSpec:
-				enable["pointsto"] = true // an expr, maybe
+				// an expression, maybe
+				enable["pointsto"] = true
+				enable["whicherrs"] = true
 
 			default:
 				// Comment, Field, KeyValueExpr, etc: ascend.

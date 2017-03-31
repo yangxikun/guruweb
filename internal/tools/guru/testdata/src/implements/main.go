@@ -1,4 +1,4 @@
-package main
+package guru
 
 // Tests of 'implements' query.
 // See go.tools/guru/guru_test.go for explanation.

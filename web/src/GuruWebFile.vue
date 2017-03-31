@@ -62,7 +62,6 @@
                     params = params + '&s=' + fileInfo.sel.fromLine + '.' + fileInfo.sel.fromCol + '-'
                         + fileInfo.sel.toLine + '.' + fileInfo.sel.toCol;
                 }
-                this.currentFile = fileInfo.fileName;
                 this.$http.get('/file?' + params, {}).then((response) => {
                     console.log('show file http')
                     this.nums = (response.data.match(/\n/g) || []).length;
@@ -82,6 +81,8 @@
                             }
                         }
                     });
+                    this.currentFile = fileInfo.fileName;
+                    window.Bus.$emit('show-file-success', fileInfo);
                 }, (response) => {
                     window.Bus.$emit('show-alert', response.data);
                 });

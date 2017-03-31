@@ -1,4 +1,4 @@
-package main
+package guru
 
 // Tests of 'referrers' query.
 // See go.tools/guru/guru_test.go for explanation.

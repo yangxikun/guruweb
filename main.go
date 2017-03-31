@@ -23,6 +23,7 @@ var (
 func main() {
 
 	flag.Parse()
+    output.Normal("guruweb is starting...")
 	initConfig(strings.Split(*scope, ","), *verbose)
 	err := initIndex()
 	exitOn(err)

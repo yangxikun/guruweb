@@ -1,4 +1,4 @@
-package main
+package guru
 
 // Tests of channel 'peers' query.
 // See go.tools/guru/guru_test.go for explanation.
@@ -35,7 +35,7 @@ func main() {
 	case chA2 <- &a2: // @peers peer-send-chA' "<-"
 	}
 
-	for _ = range chA {
+	for range chA {
 	}
 
 	close(chA) // @peers peer-close-chA "chA"

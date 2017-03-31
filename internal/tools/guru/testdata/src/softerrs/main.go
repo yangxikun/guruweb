@@ -1,4 +1,4 @@
-package main
+package guru
 
 // Tests of various queries on a program containing only "soft" errors.
 // See go.tools/guru/guru_test.go for explanation.

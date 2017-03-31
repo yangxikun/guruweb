@@ -1,4 +1,4 @@
-package main_test
+package guru_test
 
 import (
 	"lib"

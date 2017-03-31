@@ -11,12 +11,12 @@ import (
 	"go/types"
 	"sort"
 
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 	"golang.org/x/tools/go/ast/astutil"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/pointer"
 	"golang.org/x/tools/go/ssa"
 	"golang.org/x/tools/go/ssa/ssautil"
-	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // pointsto runs the pointer analysis on the selected expression,

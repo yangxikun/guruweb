@@ -1,4 +1,4 @@
-package main
+package guru
 
 func g(x int) {
 }

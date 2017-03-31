@@ -8,12 +8,12 @@ import (
 	"fmt"
 	"go/token"
 
+	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 	"golang.org/x/tools/go/callgraph"
 	"golang.org/x/tools/go/callgraph/static"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/ssa"
 	"golang.org/x/tools/go/ssa/ssautil"
-	"github.com/yangxikun/guruweb/internal/tools/guru/serial"
 )
 
 // Callstack displays an arbitrary path from a root of the callgraph

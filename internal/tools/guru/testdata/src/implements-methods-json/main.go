@@ -1,4 +1,4 @@
-package main
+package guru
 
 // Tests of 'implements' query applied to methods, -output=json.
 // See go.tools/guru/guru_test.go for explanation.

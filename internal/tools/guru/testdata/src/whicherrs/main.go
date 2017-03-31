@@ -1,4 +1,4 @@
-package main
+package guru
 
 type errType string
 
