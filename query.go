@@ -5,15 +5,24 @@ import (
 	"go/build"
 	"go/token"
     "github.com/yangxikun/guruweb/internal/tools/guru"
+    "github.com/yangxikun/guruweb/output"
+    "strings"
 )
 
+func isMultiResMode(mode string) bool {
+    if mode == "referrers" {
+        return true
+    }
+    return false
+}
+
 // guru wrapper
-func queryGuru(mode, pos string, json bool) (result []byte, err error) {
-	output := func(fset *token.FileSet, qr guru.QueryResult) {
-		result = qr.JSON(fset)
-		if json {
+func queryGuru(mode, pos string, jsonOut bool) (result []byte, err error) {
+    guruQueryResult := make([][]byte, 0)
+	jsonOutput := func(fset *token.FileSet, qr guru.QueryResult) {
+		if jsonOut {
 			// JSON output
-			result = qr.JSON(fset)
+            guruQueryResult = append(guruQueryResult, qr.JSON(fset))
 		} else {
 			// plain output
 			out := &bytes.Buffer{}
@@ -21,7 +30,7 @@ func queryGuru(mode, pos string, json bool) (result []byte, err error) {
 				guru.Fprintf(out, fset, pos, format, args...)
 			}
 			qr.PrintPlain(printf)
-			result = out.Bytes()
+            guruQueryResult = append(guruQueryResult, out.Bytes())
 		}
 	}
 
@@ -32,9 +41,32 @@ func queryGuru(mode, pos string, json bool) (result []byte, err error) {
 		Scope:      defaultConfig.scope,
 		PTALog:     nil,
 		Reflection: false,
-		Output:     output,
+		Output:     jsonOutput,
 	}
 
+    if defaultConfig.verbose {
+        output.Trace("guru -scope %s %s %s", strings.Join(defaultConfig.scope, ","), mode, pos)
+    }
+
 	err = guru.Run(mode, &query)
+    if isMultiResMode(mode) {
+        var _result bytes.Buffer
+        if jsonOut {
+            _result.WriteByte('[')
+            for _, v := range guruQueryResult {
+                _result.Write(v)
+                _result.WriteByte(',')
+            }
+            _result.Truncate(_result.Len() - 1)
+            _result.WriteByte(']')
+        } else {
+            for _, v := range guruQueryResult {
+                _result.Write(v)
+            }
+        }
+        result = _result.Bytes()
+    } else {
+        result = guruQueryResult[0]
+    }
 	return
 }
