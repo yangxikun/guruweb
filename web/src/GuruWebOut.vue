@@ -9,7 +9,7 @@
     .query-out {
         padding: 10px;
         white-space: pre;
-        font: 14px Menlo, monospace;
+        font: 14px Consolas, Monaco, monospace;
         overflow: auto;
         a {
             cursor: pointer;

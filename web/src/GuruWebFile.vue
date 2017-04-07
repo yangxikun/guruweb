@@ -15,7 +15,7 @@
     .code {
         background: #e9e9e9;
         border-radius: 5px;
-        font: 14px Menlo, monospace;
+        font: 14px Consolas, Monaco, monospace;
         padding: 10px;
         overflow: auto;
     }

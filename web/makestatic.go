@@ -20,6 +20,8 @@ import (
 var files = []string{
 	"index.html",
 	"dist/build.js",
+    "third/jquery-3.1.1.min.js",
+    "third/bootstrap-3.3.7.min.css",
 }
 
 func main() {
