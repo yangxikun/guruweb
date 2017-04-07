@@ -38,6 +38,10 @@
                 this.$http.get('/query?mode=' + mode + '&pos=' + encodeURIComponent(pos), {}).then((response) => {
                     this.height = $(window).height() - topOuterHeight;
                     this.links = this._parseLinks(response.data);
+                    console.log(this.links);
+                    if (mode == 'definition') {
+                        this.jump(this.links[0].file, this.links[0].sel)
+                    }
                 }, (response) => {
                     this.links = ['Select or click within the source code to consult the guru.'];
                     window.Bus.$emit('show-alert', response.data);

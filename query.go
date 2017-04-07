@@ -49,6 +49,10 @@ func queryGuru(mode, pos string, jsonOut bool) (result []byte, err error) {
     }
 
 	err = guru.Run(mode, &query)
+    if err != nil {
+        return
+    }
+
     if isMultiResMode(mode) {
         var _result bytes.Buffer
         if jsonOut {
