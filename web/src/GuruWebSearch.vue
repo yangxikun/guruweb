@@ -8,7 +8,7 @@
             <h3>Struct Or Interface <span class="badge">{{ Object.keys(identItems).length }}</span></h3>
             <a href="#" v-for="(item, key) in identItems" @click="showFile(item)">{{ key }}</a>
         </div>
-    <div>
+    </div>
 </template>
 <style scoped>
     a {
