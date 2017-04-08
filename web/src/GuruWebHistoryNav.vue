@@ -2,8 +2,7 @@
 	<div>
 		<h3 class="left">{{ currentFile }}</h3>
 		<div class="cursor-pointer" v-show="historyStack.length > 1" @click="historyBack()">
-			<h3 class="right">back</h3>
-			<span class="right glyphicon glyphicon-menu-left"></span>
+			<h3 class="right">&lt;&lt;back</h3>
 		</div>
 	</div>
 </template>

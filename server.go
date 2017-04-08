@@ -15,6 +15,7 @@ import (
 	"time"
     "github.com/yangxikun/guruweb/output"
     "github.com/yangxikun/guruweb/web"
+    "golang.org/x/tools/go/loader"
 )
 
 type index struct {
@@ -23,6 +24,61 @@ type index struct {
 }
 
 var defaultIndex = &index{}
+
+func walkDecls(impPath string, decls []ast.Decl, file *token.File)  {
+    for _, decl := range decls {
+        // get identifier pos
+        position := file.Position(decl.Pos())
+        if fun, ok := decl.(*ast.FuncDecl); ok {
+            if fun.Recv != nil && fun.Recv.NumFields() == 1 {
+                // method
+                if field := fun.Recv.List[0]; field.Names != nil {
+                    typeExpr := field.Type
+                    if starIdent, ok := field.Type.(*ast.StarExpr); ok {
+                        typeExpr = starIdent.X
+                    }
+
+                    if ident, ok := typeExpr.(*ast.Ident); ok {
+                        defaultIndex.identifiers[impPath+ident.Name+"."+fun.Name.String()] = position
+                    }
+                }
+            } else {
+                defaultIndex.identifiers[impPath+fun.Name.String()] = position
+            }
+            continue
+        }
+
+        // collect struct/interface identifiers
+        if gen, ok := decl.(*ast.GenDecl); ok && gen.Tok == token.TYPE {
+            if typeSpec, ok := gen.Specs[0].(*ast.TypeSpec); ok {
+                switch typeSpec.Type.(type) {
+                case *ast.StructType:
+                    defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
+                case *ast.InterfaceType:
+                    defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
+                }
+            }
+        }
+    }
+}
+
+func walkFiles(prog *loader.Program, impPath string, files []*ast.File) {
+    for _, astFile := range files {
+        file := prog.Fset.File(astFile.Pos())
+        filename := file.Name()
+        defaultIndex.files = append(defaultIndex.files, filename)
+        walkDecls(impPath, astFile.Decls, file)
+    }
+}
+
+func walkPkgs(prog *loader.Program) {
+    for pkg, info := range prog.AllPackages {
+        defaultConfig.loadedPkgs = append(defaultConfig.loadedPkgs, pkg.Path())
+        impPath := pkg.Path() + "."
+        // scan loaded files
+        walkFiles(prog, impPath, info.Files)
+    }
+}
 
 // build files, struct/interface identifiers index
 func initIndex() error {
@@ -36,36 +92,7 @@ func initIndex() error {
 		return err
 	}
 
-	for pkg, info := range prog.AllPackages {
-		defaultConfig.loadedPkgs = append(defaultConfig.loadedPkgs, pkg.Path())
-		impPath := pkg.Path() + "."
-        // scan loaded files
-		for _, astFile := range info.Files {
-			file := prog.Fset.File(astFile.Pos())
-			filename := file.Name()
-			defaultIndex.files = append(defaultIndex.files, filename)
-			for _, decl := range astFile.Decls {
-                // get identifier pos
-				position := file.Position(decl.Pos())
-				if fun, ok := decl.(*ast.FuncDecl); ok {
-					defaultIndex.identifiers[impPath+fun.Name.String()] = position
-					continue
-				}
-
-                // collect struct/interface identifiers
-				if gen, ok := decl.(*ast.GenDecl); ok && gen.Tok == token.TYPE {
-                    if typeSpec, ok := gen.Specs[0].(*ast.TypeSpec); ok {
-                        switch typeSpec.Type.(type) {
-                        case *ast.StructType:
-                            defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
-                        case *ast.InterfaceType:
-                            defaultIndex.identifiers[impPath+typeSpec.Name.String()] = position
-                        }
-                    }
-				}
-			}
-		}
-	}
+    walkPkgs(prog)
 	sort.Sort(sort.StringSlice(defaultIndex.files))
 
 	return nil
